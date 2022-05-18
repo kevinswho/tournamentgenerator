@@ -3,11 +3,11 @@ import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
-import { Pressable, View, Text } from 'react-native';
+import { StyleSheet, Pressable, View, Text } from 'react-native';
 
 function ParticipantEntry({ navigation }) {
     return (
-        <View>
+        <View style={styles.container}>
 
             <Text>participant entry screen</Text>
 
@@ -21,6 +21,11 @@ function ParticipantEntry({ navigation }) {
 
 const styles = StyleSheet.create({
     container: {
+      flex: 1,
+      backgroundColor: '#fff',
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+  });
 
-    }
-})
+export default ParticipantEntry;
