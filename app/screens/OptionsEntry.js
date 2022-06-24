@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
     container: {
       flex: 1,
       flexDirection: 'column',
-      backgroundColor: colors.japaneseIndigoBackground,
+      backgroundColor: colors.x11gray,
       alignItems: 'center',
       justifyContent:'center',
       paddingTop: StatusBar.currentHeight + 5,

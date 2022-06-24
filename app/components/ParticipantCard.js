@@ -5,10 +5,10 @@ import colors from '../config/colors';
 
 function ParticipantCard(props) {
     return (
-        <TouchableOpacity style={styles.card}>
+        <View style={styles.card}>
             <View style={styles.name}><Text style={styles.nameText}>{props.participantName}</Text></View>
             <View style={styles.weight}><Text style={styles.weightText}>{props.participantWeight}</Text></View>
-        </TouchableOpacity>
+        </View>
     );
 }
 
@@ -20,8 +20,8 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         height: 50,
         backgroundColor: '#a9a9a9',
-        borderWidth: 3,
-        borderRadius: 20,
+        borderWidth: 1,
+        borderRadius: 10,
         borderColor: colors.onyx,
       },
 

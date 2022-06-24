@@ -1,51 +1,73 @@
-import React from 'react';
+import React, {useState} from 'react';
 
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
-import { StyleSheet, Pressable, View, Text, StatusBar, TouchableOpacity } from 'react-native';
+import { KeyboardAvoidingView, StyleSheet, Pressable, View, Text, StatusBar, TouchableOpacity } from 'react-native';
 
 import ParticipantCard from '../components/ParticipantCard';
 import colors from '../config/colors';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { TextInput } from 'react-native-gesture-handler';
+import { Alert, Keyboard } from 'react-native-web';
 
-const participants = 
+function ParticipantEntry({ route, navigation }) {
 
-function addParticipant(name, weight) {
-  const participant = {
-    participantName: name,
-    participantWeight: weight
+  const [participant,setParticipant] = useState();
+  const [participantNameEntry,setParticipantName] = useState();
+  const [participantWeightEntry,setParticipantWeight] = useState();
+
+  const [participants,setParticipants] = useState([]);
+
+  const handleAddParticipant = () => {
+    const participantEntry = {participantName: participantNameEntry, participantWeight: participantWeightEntry};
+    setParticipant(participantEntry);
+    setParticipants([...participants, participantEntry]);
+    setParticipant(null);
   }
 
-  participants.push(participant);
-}
+  const handleDeleteParticipant = (index) => {
+    let tempParticipants = [...participants];
+    tempParticipants.splice(index, 1);
+    setParticipants(tempParticipants);
+  }
 
-function ParticipantEntry({ route }) {
     return (
   
-        <View style={styles.container}>
+        <KeyboardAvoidingView style={styles.container}>
+            {/*title*/}
             <View style={styles.participantListTitle}>
               <Text style={styles.participantListTitleText}>Participant List</Text>
             </View>
 
-            <View style={styles.entryList}>
-              <ParticipantCard participantName='fuckyou' participantWeight='69'/>
-              <Text>{ route.params.data }</Text>
+            {/*card display*/}
+            <View style={styles.entryList}> 
+              {
+                participants.map((participant, index) => {
+                  return (
+                    <TouchableOpacity key={index} onLongPress={() => handleDeleteParticipant(index)}>
+                      <ParticipantCard participantName={participant.participantName} participantWeight={participant.participantWeight}/>
+                    </TouchableOpacity>
+                  )}
+
+                )
+              }
             </View>
 
+            {/*participant addition*/}
             <View style={styles.entryInput}>
-              <View style={styles.nameEntry}><TextInput placeholder="Participant Name" /></View>
-              <View style={styles.weightEntry}><TextInput placeholder="Weight" /></View>
-              <View style={styles.addEntry}><Pressable><Text>Add</Text></Pressable></View>
+              <View style={styles.nameEntry}><TextInput placeholder="Participant Name" fontSize={15} onChangeText={text => setParticipantName(text)}/></View>
+              <View style={styles.weightEntry}><TextInput placeholder="Weight" fontSize={15} onChangeText={text => setParticipantWeight(text)}/></View>
+              <View style={styles.addEntry}><Pressable onPress={() => handleAddParticipant()}><Text style={styles.addText}>+</Text></Pressable></View>
             </View>
 
+            {/*submit button*/}
             <View style={styles.submitButton}>
               <TouchableOpacity onPress={() => navigation.navigate('TournamentDisplay')}>
                 <Text style={styles.submitText}>Generate Teams</Text>
               </TouchableOpacity>
             </View>
-        </View>
+        </KeyboardAvoidingView>
       
     );
 }
@@ -54,7 +76,7 @@ const styles = StyleSheet.create({
     container: {
       flex: 1,
       flexDirection: 'column',
-      backgroundColor: colors.japaneseIndigoBackground,
+      backgroundColor: colors.x11gray,
       alignItems: 'center',
       justifyContent:'center',
       paddingTop: StatusBar.currentHeight + 5,
@@ -120,6 +142,11 @@ const styles = StyleSheet.create({
       fontSize: 30,
       color: 'black',
       fontWeight: 'bold'
+    },
+
+    addText: {
+      fontSize: 20,
+      color: colors.japaneseIndigoBackground,
     },
   });
 
